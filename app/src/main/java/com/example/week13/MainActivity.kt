@@ -1,5 +1,7 @@
 package com.example.week13
 
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +16,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.week13.ui.theme.Week13Theme
 
 class MainActivity : ComponentActivity() {
+    val br = BatteryBR()
+    override fun onStart() {
+        super.onStart()
+        val intentFilter = IntentFilter(Intent.ACTION_POWER_CONNECTED)
+        intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED)
+        this.registerReceiver(br, intentFilter)
+    }
+
+    override fun onStop() {
+        this.unregisterReceiver(br)
+        super.onStop()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
