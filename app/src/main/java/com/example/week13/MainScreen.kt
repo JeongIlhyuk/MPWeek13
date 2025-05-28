@@ -15,7 +15,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
     var msg by remember {
         mutableStateOf("")
     }
-    MyBR(Intent.ACTION_BOOT_COMPLETED) {
+    MyBR(Intent.ACTION_POWER_CONNECTED) {
         msg = "전원연결"
     }
 
