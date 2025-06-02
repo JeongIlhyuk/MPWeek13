@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
-import android.widget.Toast
 
 class SMSBR : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -25,7 +24,11 @@ class SMSBR : BroadcastReceiver() {
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
             context?.let {
-                makeNotification(context, msgBody, pendingIntent)
+                val application = context.applicationContext as MyApplication
+                if (application.isForeground)
+                    context.startActivity(newIntent)
+                else
+                    makeNotification(context, msgBody, pendingIntent)
             }
 
 //            Toast.makeText(
