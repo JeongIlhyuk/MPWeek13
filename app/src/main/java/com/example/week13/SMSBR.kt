@@ -13,12 +13,26 @@ class SMSBR : BroadcastReceiver() {
             val msg = Telephony.Sms.Intents.getMessagesFromIntent(intent)
             val msgSender = msg[0].originatingAddress
             val msgBody = msg.joinToString(separator = "") { it.messageBody }
-
-            Toast.makeText(
+            val newIntent = Intent(context, MainActivity::class.java)
+            newIntent.putExtra("msgSender", msgSender)
+            newIntent.putExtra("msgBody", msgBody)
+            newIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            val pendingIntent = PendingIntent.getActivity(
                 context,
-                "$msgSender : $msgBody",
-                Toast.LENGTH_SHORT
-            ).show()
+                100,
+                newIntent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+            context?.let {
+                makeNotification(context, msgBody, pendingIntent)
+            }
+
+//            Toast.makeText(
+//                context,
+//                "$msgSender : $msgBody",
+//                Toast.LENGTH_SHORT
+//            ).show()
         }
     }
 }
