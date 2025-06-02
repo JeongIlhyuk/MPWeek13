@@ -1,14 +1,9 @@
 package com.example.week13
 
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,14 +24,25 @@ class MainActivity : ComponentActivity() {
 //        super.onStop()
 //    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    fun handleIntent(intent: Intent) {
+        val msgSender = intent.getStringExtra("msgSender")
+        val msgBody = intent.getStringExtra("msgBody")
+
         setContent {
             Week13Theme {
-                MainScreen()
+                MainScreen(msgSender, msgBody)
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        handleIntent(intent)
     }
 }
 
