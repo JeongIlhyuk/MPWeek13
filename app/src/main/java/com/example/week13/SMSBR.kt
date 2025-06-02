@@ -1,10 +1,10 @@
+package com.example.week13
+
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
-import com.example.week13.MainActivity
-import com.example.week13.makeNotification
 
 class SMSBR : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
